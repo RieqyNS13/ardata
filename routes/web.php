@@ -1,5 +1,6 @@
 <?php
-
+use App\Http\Middleware\checkAuth;
+ 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,14 +13,12 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('');
 });
 
 Route::get("/test", "TestController@index");
 
+
 Route::get("/register", "registerController@create");
-
 Route::post("/validasi", "registerController@store");
-
-
-//Route::get("/home", )
+Route::get("/home", "registerController@index");

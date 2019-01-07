@@ -3,14 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\ModelBiodata;
 use App\Users;
 
 class registerController extends Controller
 {
 	
+	public function index(){
+
+		// if(!Session::get('login'))return redirect()->route('register');
+		// else return view("home");
+		dd(Auth::user());
+
+	}
     public function create(){
 			return view("register2");
+	}
+	public function edit(Request $request){
+
 	}
 	public function store(Request $request){
 		$validatedData = $request->validate([
@@ -24,10 +35,15 @@ class registerController extends Controller
 		$model->email = $request->input("email");
 		$model->username = $request->input("username");
 		$model->password = md5($request->input("password"));
-		$model->save();
-		if ($request->session()->put('users', $request->input("username")));
-		return view("home");
+		if($model->save()){
+			Session::put("users",$request->input("username"));
+			Session::put("login",true);
+			return view("home");
+		}
+		
+		
 
 	}
+
 	
 }
